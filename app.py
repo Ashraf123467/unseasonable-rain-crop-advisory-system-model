@@ -76,6 +76,7 @@ def load_or_train():
     
     return model, model_columns
 
+model, model_columns = load_or_train()
 
 # -----------------------------------------------------
 # 🌐 Language Pack
@@ -631,6 +632,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
