@@ -70,12 +70,11 @@ def load_or_train():
         model = joblib.load(MODEL_PATH)
         model_columns = joblib.load(MODEL_COLUMNS_PATH)
     except Exception:
-        model, cols, _ = train_and_save_model()
-        # Save in a writable folder
+        model, model_columns, _ = train_and_save_model()
         joblib.dump(model, MODEL_PATH)
-        joblib.dump(cols, MODEL_COLUMNS_PATH)
+        joblib.dump(model_columns, MODEL_COLUMNS_PATH)
     
-    return model, cols
+    return model, model_columns
 
 
 # -----------------------------------------------------
@@ -632,6 +631,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
