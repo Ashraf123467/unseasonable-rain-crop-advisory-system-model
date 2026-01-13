@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 # -----------------------------------------------------
 # 🔹 Train and Save Model
 # -----------------------------------------------------
+os.makedirs("/mount/data", exist_ok=True)  
 
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
@@ -626,6 +627,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
