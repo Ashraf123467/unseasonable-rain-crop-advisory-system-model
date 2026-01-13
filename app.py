@@ -9,12 +9,6 @@ from sklearn.ensemble import RandomForestClassifier
 # -----------------------------------------------------
 # 🔹 Train and Save Model
 # -----------------------------------------------------
-DATA_FOLDER = "./data"
-os.makedirs(DATA_FOLDER, exist_ok=True)
-
-MODEL_PATH = os.path.join(DATA_FOLDER, "crop_recommendation.pkl")
-MODEL_COLUMNS_PATH = os.path.join(DATA_FOLDER, "model_columns.pkl")
-
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
     df = df.drop(columns=["Unnamed: 0"], errors="ignore")
@@ -61,6 +55,16 @@ def train_and_save_model():
 # -----------------------------------------------------
 # 🔹 Load Model (DEPLOYMENT SAFE)
 # -----------------------------------------------------
+import os
+import joblib
+
+DATA_FOLDER = "./data"  # Streamlit-safe folder
+MODEL_PATH = f"{DATA_FOLDER}/crop_recommendation.pkl"
+MODEL_COLUMNS_PATH = f"{DATA_FOLDER}/model_columns.pkl"
+
+# Ensure the folder exists
+os.makedirs(DATA_FOLDER, exist_ok=True)
+
 def load_or_train():
     try:
         model = joblib.load(MODEL_PATH)
@@ -73,8 +77,6 @@ def load_or_train():
     
     return model, cols
 
-# ✅ IMPORTANT: LOAD MODEL HERE
-model, model_columns = load_or_train()
 
 # -----------------------------------------------------
 # 🌐 Language Pack
@@ -630,6 +632,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
