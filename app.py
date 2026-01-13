@@ -64,7 +64,7 @@ def train_and_save_model():
 @st.cache_resource
 def load_or_train():
     try:
-          model = joblib.load(MODEL_PATH)
+        model = joblib.load(MODEL_PATH)
         model_columns = joblib.load(MODEL_COLUMNS_PATH)
     except Exception:
         model, cols, _ = train_and_save_model()
@@ -631,6 +631,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
