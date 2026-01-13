@@ -13,18 +13,44 @@ from sklearn.ensemble import RandomForestClassifier
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
     df = df.drop(columns=["Unnamed: 0"], errors="ignore")
-    X = df[[
-        "season", "district", "soiltype", "avgrainfall_mm", "avgtemp_c",
-        "avghumidity_%", "soil_ph", "nitrogen_kg_ha", "phosphorus_kg_ha", "potassium_kg_ha"
-    ]]
+
+    X = df[
+        [
+            "season",
+            "district",
+            "soiltype",
+            "avgrainfall_mm",
+            "avgtemp_c",
+            "avghumidity_%",
+            "soil_ph",
+            "nitrogen_kg_ha",
+            "phosphorus_kg_ha",
+            "potassium_kg_ha",
+        ]
+    ]
     y = df["Crop"]
-    X = pd.get_dummies(X, columns=["district", "soiltype", "season"], drop_first=True)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-    model = RandomForestClassifier(n_estimators=70, max_depth=12, random_state=42)
+
+    X = pd.get_dummies(
+        X,
+        columns=["district", "soiltype", "season"],
+        drop_first=True,
+    )
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    model = RandomForestClassifier(
+        n_estimators=70,
+        max_depth=12,
+        random_state=42,
+    )
+
     model.fit(X_train, y_train)
-    joblib.dump(model, "crop_recommendation.pkl", compress=8)
-    joblib.dump(X.columns.tolist(), "model_columns.pkl", compress=7)
-    return model, X.columns.tolist(), df
+
+    model_columns = X.columns.tolist()
+
+    return model, model_columns, df
 
 # -----------------------------------------------------
 # 🔹 Load Model
@@ -593,6 +619,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
