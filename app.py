@@ -2,6 +2,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 import numpy as np
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
@@ -22,7 +23,6 @@ def train_and_save_model():
     model.fit(X_train, y_train)
     joblib.dump(model, "crop_recommendation.pkl", compress=8)
     joblib.dump(X.columns.tolist(), "model_columns.pkl", compress=7)
-    compress_pickle("crop_recommendation.pkl", target_size_mb=25)
     return model, X.columns.tolist(), df
 
 # -----------------------------------------------------
@@ -591,6 +591,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
