@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 # -----------------------------------------------------
 # 🔹 Train and Save Model
 # -----------------------------------------------------
-'''
+
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
     df = df.drop(columns=["Unnamed: 0"], errors="ignore")
@@ -25,21 +25,22 @@ def train_and_save_model():
     joblib.dump(model, "crop_recommendation.pkl", compress=8)
     joblib.dump(X.columns.tolist(), "model_columns.pkl", compress=7)
     return model, X.columns.tolist(), df
-'''
+
 # -----------------------------------------------------
 # 🔹 Load Model
 # -----------------------------------------------------
 @st.cache_resource
-def load_model_and_columns():
-    if not os.path.exists("crop_recommendation.pkl") or not os.path.exists("model_columns.pkl"):
-        model, model_columns, df = train_and_save_model()
-    else:
-        model = joblib.load("crop_recommendation.pkl")
-        model_columns = joblib.load("model_columns.pkl")
-        df = pd.read_csv("Maharashtra_crop_dataset.csv").drop(columns=["Unnamed: 0"], errors="ignore")
-    return model, model_columns, df
+def load_or_train():
+    try:
+        model = joblib.load("/mount/data/crop_recommendation.pkl")
+        cols = joblib.load("/mount/data/model_columns.pkl")
+    except Exception:
+        model, cols, _ = train_and_save_model()
+        joblib.dump(model, "/mount/data/crop_recommendation.pkl")
+        joblib.dump(cols, "/mount/data/model_columns.pkl")
 
-model, model_columns, df = load_model_and_columns()
+    return model, cols
+
 
 # -----------------------------------------------------
 # 🌐 Language Pack
@@ -592,6 +593,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
