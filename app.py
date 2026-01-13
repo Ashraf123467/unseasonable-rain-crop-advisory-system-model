@@ -61,18 +61,17 @@ def train_and_save_model():
 # -----------------------------------------------------
 # 🔹 Load Model (DEPLOYMENT SAFE)
 # -----------------------------------------------------
-@st.cache_resource
 def load_or_train():
     try:
         model = joblib.load(MODEL_PATH)
         model_columns = joblib.load(MODEL_COLUMNS_PATH)
     except Exception:
         model, cols, _ = train_and_save_model()
-        joblib.dump(model, "/mount/data/crop_recommendation.pkl")
-        joblib.dump(cols, "/mount/data/model_columns.pkl")
-
+        # Save in a writable folder
+        joblib.dump(model, MODEL_PATH)
+        joblib.dump(cols, MODEL_COLUMNS_PATH)
+    
     return model, cols
-
 
 # ✅ IMPORTANT: LOAD MODEL HERE
 model, model_columns = load_or_train()
@@ -631,6 +630,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
