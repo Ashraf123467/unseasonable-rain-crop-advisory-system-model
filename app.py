@@ -52,8 +52,9 @@ def train_and_save_model():
 
     return model, model_columns, df
 
+
 # -----------------------------------------------------
-# 🔹 Load Model
+# 🔹 Load Model (DEPLOYMENT SAFE)
 # -----------------------------------------------------
 @st.cache_resource
 def load_or_train():
@@ -65,8 +66,11 @@ def load_or_train():
         joblib.dump(model, "/mount/data/crop_recommendation.pkl")
         joblib.dump(cols, "/mount/data/model_columns.pkl")
 
-    return model, model_columns
+    return model, cols
 
+
+# ✅ IMPORTANT: LOAD MODEL HERE
+model, model_columns = load_or_train()
 
 # -----------------------------------------------------
 # 🌐 Language Pack
@@ -176,7 +180,10 @@ LANGUAGES = {
 # -----------------------------------------------------
 # 🌐 Language Selector
 # -----------------------------------------------------
-lang_choice = st.sidebar.radio("Choose Language / भाषा चुनें / भाषा निवडा:", list(LANGUAGES.keys()))
+lang_choice = st.sidebar.radio(
+    "Choose Language / भाषा चुनें / भाषा निवडा:",
+    list(LANGUAGES.keys())
+)
 T = LANGUAGES[lang_choice]
 
 
@@ -619,6 +626,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
