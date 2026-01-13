@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 # -----------------------------------------------------
 # 🔹 Train and Save Model
 # -----------------------------------------------------
+'''
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
     df = df.drop(columns=["Unnamed: 0"], errors="ignore")
@@ -24,7 +25,7 @@ def train_and_save_model():
     joblib.dump(model, "crop_recommendation.pkl", compress=8)
     joblib.dump(X.columns.tolist(), "model_columns.pkl", compress=7)
     return model, X.columns.tolist(), df
-
+'''
 # -----------------------------------------------------
 # 🔹 Load Model
 # -----------------------------------------------------
@@ -591,6 +592,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
