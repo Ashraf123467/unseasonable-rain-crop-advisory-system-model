@@ -39,7 +39,7 @@ def load_or_train():
         joblib.dump(model, "/mount/data/crop_recommendation.pkl")
         joblib.dump(cols, "/mount/data/model_columns.pkl")
 
-    return model, cols
+    return model, model_columns
 
 
 # -----------------------------------------------------
@@ -593,6 +593,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
