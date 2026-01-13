@@ -9,7 +9,11 @@ from sklearn.ensemble import RandomForestClassifier
 # -----------------------------------------------------
 # 🔹 Train and Save Model
 # -----------------------------------------------------
-os.makedirs("/mount/data", exist_ok=True)  
+DATA_FOLDER = "./data"
+os.makedirs(DATA_FOLDER, exist_ok=True)
+
+MODEL_PATH = os.path.join(DATA_FOLDER, "crop_recommendation.pkl")
+MODEL_COLUMNS_PATH = os.path.join(DATA_FOLDER, "model_columns.pkl")
 
 def train_and_save_model():
     df = pd.read_csv("Maharashtra_crop_dataset.csv")
@@ -60,8 +64,8 @@ def train_and_save_model():
 @st.cache_resource
 def load_or_train():
     try:
-        model = joblib.load("/mount/data/crop_recommendation.pkl")
-        cols = joblib.load("/mount/data/model_columns.pkl")
+          model = joblib.load(MODEL_PATH)
+        model_columns = joblib.load(MODEL_COLUMNS_PATH)
     except Exception:
         model, cols, _ = train_and_save_model()
         joblib.dump(model, "/mount/data/crop_recommendation.pkl")
@@ -627,6 +631,7 @@ if submitted:
 
     except Exception as e:
         st.error(f"⚠️ Error: {e}")
+
 
 
 
